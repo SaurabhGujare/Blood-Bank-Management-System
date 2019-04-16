@@ -18,7 +18,9 @@ import org.springframework.web.servlet.ModelAndView;
 
 
 import com.neu.bloodbankmanagement.dao.HospitalDao;
+import com.neu.bloodbankmanagement.exception.HospitalException;
 import com.neu.bloodbankmanagement.pojo.Hospital;
+import com.neu.bloodbankmanagement.pojo.Role;
 
 
 @Controller
@@ -33,6 +35,7 @@ public class AuthenticationController {
 		return "home";
 	}
 	
+	//InitBinder is a preprocessor used here to remove white spaces
 	@InitBinder
 	public void initBinder(WebDataBinder webDataBinder) {
 		StringTrimmerEditor stringTrimmerEditor = new StringTrimmerEditor(true);
@@ -47,15 +50,20 @@ public class AuthenticationController {
 	}
 	
 	@RequestMapping(value= "/registerhospital" , method = RequestMethod.POST)
-	public String processRegister(@Valid @ModelAttribute("hospital") Hospital hospital, BindingResult bindingResult) {
+	public String processRegister(@Valid @ModelAttribute("hospital") Hospital hospital, BindingResult bindingResult) throws HospitalException {
 		
 		if(bindingResult.hasErrors()) {
 			System.out.println("\n\nbindingResult.hasErrors() is TRUE");
 			return "registerHospital";
 		}else {
 			System.out.println("\n\nbindingResult.hasErrors() is FALSE");
-			hospitalDao.save(hospital);
 			System.out.println("\n\nhospital is "+ hospital);
+			Role role = new Role();
+			role.setUserName(hospital.getUserName());
+			role.setPassword(hospital.getPassword());
+			role.setRole("Hospital");
+			hospital.setRole(role);//This will also save the role because of the CascadeType.All
+			hospitalDao.save(hospital);
 			return "redirect:/";
 		}
 	}

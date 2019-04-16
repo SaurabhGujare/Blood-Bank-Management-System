@@ -13,6 +13,7 @@
 		<property name="hibernate.hbm2ddl.auto">update</property>
 		<property name="hibernate.show_sql">true</property>
 		<mapping class="com.neu.bloodbankmanagement.pojo.Hospital"/>
+		<mapping class="com.neu.bloodbankmanagement.pojo.Role"/>
 
 		<!-- <mapping class="com.neu.edu.pojo.User"/>
 		<mapping class="com.neu.edu.pojo.Phone" />

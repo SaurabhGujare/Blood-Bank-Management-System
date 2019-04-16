@@ -1,10 +1,13 @@
 package com.neu.bloodbankmanagement.pojo;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
@@ -45,6 +48,10 @@ public class Hospital {
 	@NotNull(message="is required")
 	@Size(min=5, message="Minimum 5 characters required")
 	private String password;
+	
+	@OneToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name="Role_Fk")
+	private Role role;
 	
 	public Hospital() {
 		
@@ -96,6 +103,14 @@ public class Hospital {
 
 	public void setPassword(String password) {
 		this.password = password;
+	}
+	
+	public Role getRole() {
+		return role;
+	}
+
+	public void setRole(Role role) {
+		this.role = role;
 	}
 
 	@Override
