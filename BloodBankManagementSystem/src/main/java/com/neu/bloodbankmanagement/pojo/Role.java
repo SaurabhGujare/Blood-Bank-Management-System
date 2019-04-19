@@ -27,20 +27,29 @@ public class Role {
 	@Column(name="Role")
 	private String role;
 	
+	@Column(name="Email")
+	private String email;
+	
 	@OneToOne(mappedBy="role", cascade = CascadeType.ALL)
 	private Hospital hospital;
+	
+	@OneToOne(mappedBy="role", cascade = CascadeType.ALL)
+	private BloodBank bloodBank;
+	
+	@OneToOne(mappedBy="role", cascade = CascadeType.ALL)
+	private Donor donor;
 	
 	public Role() {
 		
 	}
 	
-
-	public Role(long id, String userName, String password, String role) {
+	public Role(long id, String userName, String password, String role, String email) {
 		super();
 		this.id = id;
 		this.userName = userName;
 		this.password = password;
 		this.role = role;
+		this.email = email;
 	}
 
 
@@ -86,13 +95,37 @@ public class Role {
 		this.hospital = hospital;
 	}
 
+	public String getEmail() {
+		return email;
+	}
+
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+	public BloodBank getBloodBank() {
+		return bloodBank;
+	}
+
+	public void setBloodBank(BloodBank bloodBank) {
+		this.bloodBank = bloodBank;
+	}
+
+	public Donor getDonor() {
+		return donor;
+	}
+
+	public void setDonor(Donor donor) {
+		this.donor = donor;
+	}
 
 	@Override
 	public String toString() {
-		return "Role [id=" + id + ", userName=" + userName + ", password=" + password + ", role=" + role + "]";
+		return "Role [id=" + id + ", userName=" + userName + ", password=" + password + ", role=" + role + ", email="
+				+ email + "]";
 	}
-	
-	
+
 	
 
 }

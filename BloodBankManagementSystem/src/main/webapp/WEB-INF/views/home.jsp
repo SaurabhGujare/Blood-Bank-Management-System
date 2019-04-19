@@ -12,24 +12,24 @@
 
 <p><strong>Register</strong></P>
 <ul>
-<li>DONOR</li>
-<li>BLOOD BANK</li>
+<li><a href="${pageContext.request.contextPath}/registerdonor">DONOR</a></li>
+<li><a href="${pageContext.request.contextPath}/registerbloodbank">BLOOD BANK</a></li>
 <li><a href="${pageContext.request.contextPath}/registerhospital">HOSPITAL</a></li>	
 </ul>
 <br/>
 <p><strong>LOGIN</strong></P>
 
-<form:form action="" method=""> 
+<form:form action="${pageContext.request.contextPath}/login" method="post"> 
 
-	<select>
+	<select name="role">
 	<option>Select the role</option>
-	<option>DONOR</option>
-	<option>BLOOD BANK</option>
-	<option>HOSPITAL</option>	
+	<option value="Donor">DONOR</option>
+	<option value="BloodBank">BLOOD BANK</option>
+	<option value="Hospital">HOSPITAL</option>	
 	</select><br/>
 	
-	<input type="input"/><br/>
-	<input type="password"/><br/>
+	<input type="text" name="loginUserName"/><br/>
+	<input type="password" name="loginPassword"/><br/>
 	<input type="submit" value="login" /><br/>
 </form:form>
 </body>

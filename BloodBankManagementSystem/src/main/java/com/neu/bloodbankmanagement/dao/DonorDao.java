@@ -6,62 +6,62 @@ import org.hibernate.HibernateException;
 import org.hibernate.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.neu.bloodbankmanagement.exception.HospitalException;
-import com.neu.bloodbankmanagement.pojo.Hospital;
+import com.neu.bloodbankmanagement.exception.DonorException;
+import com.neu.bloodbankmanagement.pojo.Donor;
 import com.neu.bloodbankmanagement.pojo.Role;
 
 
-public class HospitalDao extends DAO {
+public class DonorDao extends DAO {
 	
 	
 	private RoleDao roleDao;
 	
-	public HospitalDao() {
+	public DonorDao() {
 		roleDao = new RoleDao();
 		
 	}
 	
-	public void save(Hospital hospital) throws HospitalException {
+	public void save(Donor donor) throws DonorException {
 		try {
 			begin();
 			System.out.println("\n\nAfter Begin");
-			getSession().save(hospital);
-			System.out.println("\n\nAfter getSession().save(hospital)");
+			getSession().save(donor);
+			System.out.println("\n\nAfter getSession().save(donor)");
 			commit();
 			System.out.println("\n\nAfter commit");
 		}catch(Exception e) {
 			System.out.println("\n\nBefore rollback");
 			rollback();
 			System.out.println("*********************\n\n"+e.getLocalizedMessage()+" "+e.getMessage()+"\n");
-			throw new HospitalException("Exception while registering the hospital: "+e.getMessage());	
+			throw new DonorException("Exception while registering the donor: "+e.getMessage());	
 		}finally {
 			close();
 		}
 		
 	}
 	
-	public Hospital getHospital(long id) throws HospitalException {
+	public Donor getDonor(long id) throws DonorException {
 		try {
 			begin();
-			Query q = getSession().createQuery("from Hospital where Id = :id");
+			Query q = getSession().createQuery("from Donor where Id = :id");
 			q.setLong("id", id);
-			Hospital hospital = (Hospital) q.uniqueResult();
+			Donor donor = (Donor) q.uniqueResult();
 			commit();
-			return hospital;
+			return donor;
 		} catch (HibernateException e) {
 			rollback();
-			throw new HospitalException("Could not get hospital " + id, e);
+			throw new DonorException("Could not get donor " + id, e);
 		}finally {
 			close();
 		}
 	}
 	
 	//Authenticates whether email or username is already registered or not
-	public boolean AuthenticateHospitalRegistration(Hospital hospital) {
+	public boolean AuthenticateDonorRegistration(Donor donor) {
 		for(Role role: roleDao.getRoles()) {
-			if( role.getEmail().equals(hospital.getEmail())) {
+			if( role.getEmail().equals(donor.getEmail())) {
 				return true;
-			}else if(role.getUserName().equals(hospital.getUserName())) {
+			}else if(role.getUserName().equals(donor.getUserName())) {
 				return true;
 			}
 		}

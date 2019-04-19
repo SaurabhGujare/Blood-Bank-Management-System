@@ -1,5 +1,7 @@
 package com.neu.bloodbankmanagement.pojo;
 
+import java.util.Date;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -13,32 +15,44 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
-import com.neu.bloodbankmanagement.validation.CheckEmail;
-
 @Entity
-@Table(name="hospital")
-public class Hospital {
+@Table(name="donor")
+public class Donor {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name="Id", unique = true, nullable = false)
 	private long id;
 	
-	@Column(name="Name")
+	@Column(name="first_name")
 	@NotNull(message="is required")
-	private String name;
+	private String firstName;
+	
+	@Column(name="last_name")
+	@NotNull(message="is required")
+	private String lastName;
+	
+	@Column(name="dob")
+	//@NotNull(message="is required")
+	private Date dateOfBirth;
+	
+	@Column(name="gender")
+	@NotNull(message="is required")
+	private String gender;
+	
+	@Column(name="blood_type")
+	@NotNull(message="is required")
+	private String bloodType;
 	
 	@Column(name="Email")
 	@Pattern(regexp="[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\\.[a-zA-Z0-9-.]+", message="Invalid Email id")
 	@NotNull(message="is required")
-	//@CheckEmail()
 	private String email;
 	
 	@Column(name="Phone")
 	@Pattern(regexp="\\d{3}-\\d{3}-\\d{4}", message="Invalid Phone number (xxx-xxx-xxxx)")
 	@NotNull(message="is required")
 	private String phone;
-	
 	
 	@Column(name="Username")
 	@NotNull(message="is required")
@@ -54,7 +68,7 @@ public class Hospital {
 	@JoinColumn(name="Role_Fk")
 	private Role role;
 	
-	public Hospital() {
+	public Donor() {
 		
 	}
 
@@ -66,12 +80,44 @@ public class Hospital {
 		this.id = id;
 	}
 
-	public String getName() {
-		return name;
+	public String getFirstName() {
+		return firstName;
 	}
 
-	public void setName(String name) {
-		this.name = name;
+	public void setFirstName(String firstName) {
+		this.firstName = firstName;
+	}
+
+	public String getLastName() {
+		return lastName;
+	}
+
+	public void setLastName(String lastName) {
+		this.lastName = lastName;
+	}
+
+	public Date getDateOfBirth() {
+		return dateOfBirth;
+	}
+
+	public void setDateOfBirth(Date dateOfBirth) {
+		this.dateOfBirth = dateOfBirth;
+	}
+
+	public String getGender() {
+		return gender;
+	}
+
+	public void setGender(String gender) {
+		this.gender = gender;
+	}
+
+	public String getBloodType() {
+		return bloodType;
+	}
+
+	public void setBloodType(String bloodType) {
+		this.bloodType = bloodType;
 	}
 
 	public String getEmail() {
@@ -89,7 +135,7 @@ public class Hospital {
 	public void setPhone(String phone) {
 		this.phone = phone;
 	}
-	
+
 	public String getUserName() {
 		return userName;
 	}
@@ -105,7 +151,7 @@ public class Hospital {
 	public void setPassword(String password) {
 		this.password = password;
 	}
-	
+
 	public Role getRole() {
 		return role;
 	}
@@ -116,10 +162,10 @@ public class Hospital {
 
 	@Override
 	public String toString() {
-		return "Hospital [id=" + id + ", name=" + name + ", email=" + email + ", phone=" + phone + ", userName="
+		return "Donor [id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + ", dateOfBirth="
+				+ dateOfBirth + ", gender=" + gender + ", bloodType=" + bloodType +", email=" + email + ", phone=" + phone + ", userName="
 				+ userName + ", password=" + password + ", role=" + role + "]";
 	}
-
 	
 	
 }

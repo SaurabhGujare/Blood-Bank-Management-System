@@ -13,11 +13,9 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
-import com.neu.bloodbankmanagement.validation.CheckEmail;
-
 @Entity
-@Table(name="hospital")
-public class Hospital {
+@Table(name="blood_bank")
+public class BloodBank {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -31,14 +29,12 @@ public class Hospital {
 	@Column(name="Email")
 	@Pattern(regexp="[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\\.[a-zA-Z0-9-.]+", message="Invalid Email id")
 	@NotNull(message="is required")
-	//@CheckEmail()
 	private String email;
 	
 	@Column(name="Phone")
 	@Pattern(regexp="\\d{3}-\\d{3}-\\d{4}", message="Invalid Phone number (xxx-xxx-xxxx)")
 	@NotNull(message="is required")
 	private String phone;
-	
 	
 	@Column(name="Username")
 	@NotNull(message="is required")
@@ -54,7 +50,7 @@ public class Hospital {
 	@JoinColumn(name="Role_Fk")
 	private Role role;
 	
-	public Hospital() {
+	public BloodBank() {
 		
 	}
 
@@ -89,7 +85,7 @@ public class Hospital {
 	public void setPhone(String phone) {
 		this.phone = phone;
 	}
-	
+
 	public String getUserName() {
 		return userName;
 	}
@@ -105,7 +101,7 @@ public class Hospital {
 	public void setPassword(String password) {
 		this.password = password;
 	}
-	
+
 	public Role getRole() {
 		return role;
 	}
@@ -116,10 +112,8 @@ public class Hospital {
 
 	@Override
 	public String toString() {
-		return "Hospital [id=" + id + ", name=" + name + ", email=" + email + ", phone=" + phone + ", userName="
+		return "BloodBank [id=" + id + ", name=" + name + ", email=" + email + ", phone=" + phone + ", userName="
 				+ userName + ", password=" + password + ", role=" + role + "]";
 	}
-
-	
 	
 }
