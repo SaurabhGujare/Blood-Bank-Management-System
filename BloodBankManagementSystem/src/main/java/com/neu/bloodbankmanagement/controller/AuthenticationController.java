@@ -7,6 +7,7 @@ import java.util.Date;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.StringTrimmerEditor;
@@ -31,6 +32,7 @@ import com.neu.bloodbankmanagement.exception.HospitalException;
 import com.neu.bloodbankmanagement.pojo.BloodBank;
 import com.neu.bloodbankmanagement.pojo.Donor;
 import com.neu.bloodbankmanagement.pojo.Hospital;
+import com.neu.bloodbankmanagement.pojo.LoginUser;
 import com.neu.bloodbankmanagement.pojo.Role;
 
 //@RequestMapping("/*")
@@ -47,7 +49,8 @@ public class AuthenticationController {
 	private DonorDao donorDao;
 	
 	@RequestMapping("/")
-	public String showHome(){
+	public String showHome(HttpServletRequest request){
+		
 		return "home";
 	}
 	

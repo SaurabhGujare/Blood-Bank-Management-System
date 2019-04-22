@@ -56,6 +56,29 @@ public class BloodBankDao extends DAO {
 		}
 	}
 	
+	//get Bloodbank from the username and password
+	public BloodBank getBloodBankSession(String userName, String password) throws BloodBankException {
+		try {
+			begin();
+			Query q = getSession().createQuery("from BloodBank where userName = :userName AND password= :password");
+			q.setString("userName", userName);
+			q.setString("password", password);
+			BloodBank bloodBank = (BloodBank) q.uniqueResult();
+			
+			System.out.println("********Inside BloodBankDao.getBloodBankSession\n ");
+			System.out.println("userName: "+userName+"\npassword:"+password+"\nBloodBank"+bloodBank+"\n");
+			System.out.println("********Outside BloodBankDao.getBloodBankSession\n ");
+			
+			commit();
+			return bloodBank;
+		} catch (HibernateException e) {
+			rollback();
+			throw new BloodBankException("Could not get hospital " + userName, e);
+		}finally {
+			close();
+		}
+	}
+	
 	//Authenticates whether email or username are already registered or not
 	public boolean AuthenticateBloodBankRegistration(BloodBank bloodBank) {
 		for(Role role: roleDao.getRoles()) {

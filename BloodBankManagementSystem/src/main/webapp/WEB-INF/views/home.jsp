@@ -17,20 +17,11 @@
 <li><a href="${pageContext.request.contextPath}/registerhospital">HOSPITAL</a></li>	
 </ul>
 <br/>
-<p><strong>LOGIN</strong></P>
+<br/>
+<p><strong>LOGIN</strong></p>
 
-<form:form action="${pageContext.request.contextPath}/login" method="post"> 
-
-	<select name="role">
-	<option>Select the role</option>
-	<option value="Donor">DONOR</option>
-	<option value="BloodBank">BLOOD BANK</option>
-	<option value="Hospital">HOSPITAL</option>	
-	</select><br/>
-	
-	<input type="text" name="loginUserName"/><br/>
-	<input type="password" name="loginPassword"/><br/>
-	<input type="submit" value="login" /><br/>
+<form:form action="${pageContext.request.contextPath}/login"> 
+	<input type="submit" value="Login" /><br/>
 </form:form>
 </body>
 </html>

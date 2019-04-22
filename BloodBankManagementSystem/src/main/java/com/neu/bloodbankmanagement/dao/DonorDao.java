@@ -2,9 +2,13 @@ package com.neu.bloodbankmanagement.dao;
 
 import java.util.List;
 
+import org.hibernate.Criteria;
 import org.hibernate.HibernateException;
 import org.hibernate.Query;
+import org.hibernate.criterion.ProjectionList;
+import org.hibernate.criterion.Projections;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 
 import com.neu.bloodbankmanagement.exception.DonorException;
 import com.neu.bloodbankmanagement.pojo.Donor;
@@ -51,6 +55,43 @@ public class DonorDao extends DAO {
 		} catch (HibernateException e) {
 			rollback();
 			throw new DonorException("Could not get donor " + id, e);
+		}finally {
+			close();
+		}
+	}
+	
+	//get Donor from the email entered
+	public Donor getDonor(String email) throws DonorException {
+		try {
+			begin();
+			Query q = getSession().createQuery("from Donor where email = :email");
+			q.setString("email", email);
+			Donor donor = (Donor) q.uniqueResult();
+			commit();
+			return donor;
+		} catch (HibernateException e) {
+			rollback();
+			throw new DonorException("Could not get donor " + email, e);
+		}finally {
+			close();
+		}
+	}
+	
+	//get All donor Emails 
+	public List<String> getAllDonorEmails() throws DonorException {
+		try {
+			begin();
+			Criteria crit = getSession().createCriteria(Donor.class);
+			ProjectionList projList = Projections.projectionList();
+			projList.add(Projections.property("email"));
+			crit.setProjection(projList);
+			List donorEmails = crit.list();
+			System.out.println("******Inside DonorDao.getAllDonorEmails");
+			commit();
+			return donorEmails;
+		} catch (HibernateException e) {
+			rollback();
+			throw new DonorException("Could not get donor email ");
 		}finally {
 			close();
 		}

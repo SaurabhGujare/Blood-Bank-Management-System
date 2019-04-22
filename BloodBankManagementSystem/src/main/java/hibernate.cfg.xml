@@ -16,6 +16,7 @@
 		<mapping class="com.neu.bloodbankmanagement.pojo.Donor"/>
 		<mapping class="com.neu.bloodbankmanagement.pojo.Hospital"/>
 		<mapping class="com.neu.bloodbankmanagement.pojo.BloodBank"/>
+		<mapping class="com.neu.bloodbankmanagement.pojo.DonationHistory"/>
 		
 
 		<!-- <mapping class="com.neu.edu.pojo.User"/>
