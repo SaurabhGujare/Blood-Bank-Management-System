@@ -77,6 +77,24 @@ public class DonorDao extends DAO {
 		}
 	}
 	
+	//get Donor from the userName and password entered
+	public Donor getDonor(String userName, String password) throws DonorException {
+		try {
+			begin();
+			Query q = getSession().createQuery("from Donor where userName = :userName AND password= :password");
+			q.setString("userName", userName);
+			q.setString("password", password);
+			Donor donor = (Donor) q.uniqueResult();
+			commit();
+			return donor;
+		} catch (HibernateException e) {
+			rollback();
+			throw new DonorException("Could not get donor " + userName, e);
+		}finally {
+			close();
+		}
+	}
+	
 	//get All donor Emails 
 	public List<String> getAllDonorEmails() throws DonorException {
 		try {

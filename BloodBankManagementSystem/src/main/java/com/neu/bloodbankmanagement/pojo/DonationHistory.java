@@ -23,6 +23,12 @@ public class DonationHistory {
 	@Column(name="donation_date")
 	private Date date;
 	
+	@Column(name="blood_type")
+	private String bloodType;
+	
+	@Column(name="amount")
+	private int bloodAmount;
+	
 	@ManyToOne
 	@JoinColumn(name="Blood_Bank_Id")
 	private BloodBank bloodBank;
@@ -66,5 +72,30 @@ public class DonationHistory {
 	public void setDonor(Donor donor) {
 		this.donor = donor;
 	}
+
+	public String getBloodType() {
+		return bloodType;
+	}
+
+	public void setBloodType(String bloodType) {
+		this.bloodType = bloodType;
+	}
+	
+	public int getBloodAmount() {
+		return bloodAmount;
+	}
+
+	public void setBloodAmount(int bloodAmount) {
+		this.bloodAmount = bloodAmount;
+	}
+
+	@Override
+	public String toString() {
+		
+		return "DonationHistory [id=" + id + ", date=" + date + ", bloodType=" + bloodType + ", bloodBank=" + bloodBank
+				+ ", donor=" + donor + "]";
+	}
+	
+	
 
 }

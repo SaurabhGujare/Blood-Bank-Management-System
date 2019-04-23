@@ -77,18 +77,23 @@ public class AuthenticationController {
 			System.out.println("\n\nbindingResult.hasErrors() is TRUE");
 			return "registerHospital";
 		}else {
-			System.out.println("\n\nbindingResult.hasErrors() is FALSE");
-			System.out.println("\nHospital is "+ hospital);
-			Role role = new Role();
-			role.setUserName(hospital.getUserName());
-			role.setPassword(hospital.getPassword());
-			role.setEmail(hospital.getEmail());
-			role.setRole("Hospital");
-			hospital.setRole(role);//This will also save the role because of the CascadeType.All
-			if(hospitalDao.AuthenticateHospitalRegistration(hospital)) {
-				return "registerHospital";
-			}
-			hospitalDao.save(hospital);
+
+				System.out.println("\n\nbindingResult.hasErrors() is FALSE");
+				System.out.println("\nHospital is "+ hospital);
+				Role role = new Role();
+				role.setUserName(hospital.getUserName());
+				role.setPassword(hospital.getPassword());
+				role.setEmail(hospital.getEmail());
+				role.setRole("Hospital");
+				hospital.setRole(role);//This will also save the role because of the CascadeType.All
+				if(hospitalDao.AuthenticateHospitalRegistration(hospital)) {
+					return "registerHospital";
+				}
+				
+				hospitalDao.save(hospital);
+				
+			
+			
 			return "redirect:/";
 		}
 	}

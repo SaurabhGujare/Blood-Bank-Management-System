@@ -39,7 +39,7 @@ public class LoginController {
 	
 	@Autowired
 	private RoleDao roleDao;
-	
+		
 	//Invalidate Session
 	@RequestMapping("/home")
 	public String showHome(HttpServletRequest request){

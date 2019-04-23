@@ -9,11 +9,11 @@
 <body>
 
 <% System.out.println("on page HomeDonor");  %>
-<h1>Donor's Login Home Page</h1><br/>
+<h1>Donor's Login Home Page</h1><br/><br/>
 
 <div>
-
-
+<a href="${pageContext.request.contextPath}/login/donor/donationhistory">Donation History</a><br/>
+<a href="${pageContext.request.contextPath}/home">Logout</a>
 </div>
 
 </body>

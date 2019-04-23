@@ -39,7 +39,9 @@ public class DonateController {
 	@Autowired
 	private DonationHistoryDao donationHistoryDao;
 	
-	
+	//amount donated at once is always 450ml
+	static final int BLOOD_AMOUNT = 450; 
+
 	@RequestMapping(value = "/login/bloodbank/donateform", method = RequestMethod.GET)
 	public ModelAndView showDonateForm(HttpServletRequest request, HttpServletResponse response, ModelMap map, Model model) {
 		//request.setAttribute("hospital", new Hospital());
@@ -72,7 +74,9 @@ public class DonateController {
 				
 				
 				DonationHistory donationHistory = new DonationHistory();
+				donationHistory.setBloodType(donor.getBloodType());
 				donationHistory.setDate(donattionDate);
+				donationHistory.setBloodAmount(BLOOD_AMOUNT);//Constant value
 				//save donor and bloodbank in donatoinhistry
 				donationHistory.setBloodBank(bloodBank);
 				donationHistory.setDonor(donor);

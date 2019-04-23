@@ -31,7 +31,7 @@ public class Hospital {
 	@Column(name="Email")
 	@Pattern(regexp="[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\\.[a-zA-Z0-9-.]+", message="Invalid Email id")
 	@NotNull(message="is required")
-	//@CheckEmail()
+	//@CheckEmail
 	private String email;
 	
 	@Column(name="Phone")
