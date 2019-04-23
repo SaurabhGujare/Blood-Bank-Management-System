@@ -10,6 +10,7 @@ import org.hibernate.criterion.Restrictions;
 
 import com.neu.bloodbankmanagement.exception.BloodBankException;
 import com.neu.bloodbankmanagement.exception.BloodRequestException;
+import com.neu.bloodbankmanagement.exception.HospitalException;
 import com.neu.bloodbankmanagement.pojo.BloodBank;
 import com.neu.bloodbankmanagement.pojo.BloodRequest;
 import com.neu.bloodbankmanagement.pojo.DonationHistory;
@@ -36,6 +37,7 @@ public class BloodRequestDao extends DAO {
 		
 	}
 	
+	//get request corresponding to the bloodbanks
 	public List<BloodRequest> getBloodRequests(long bloodBankId) throws BloodBankException {
 		List<BloodRequest> bloodRequests = new ArrayList<BloodRequest>();
 		try {
@@ -49,6 +51,27 @@ public class BloodRequestDao extends DAO {
 		} catch (HibernateException e) {
 			rollback();
 			throw new BloodBankException("Could not get bloodrequest " + bloodBankId, e);
+		}finally {
+			close();
+		}
+	}
+	
+	//get request corresponding to the hospital
+	
+	public List<BloodRequest> getHospitalBloodRequests(long hospitalId) throws HospitalException {
+		List<BloodRequest> bloodRequests = new ArrayList<BloodRequest>();
+		try {
+			begin();
+			@SuppressWarnings("deprecation")
+			Criteria bloodRequestCrit = getSession().createCriteria(BloodRequest.class);
+			Criteria hospitalCrit = bloodRequestCrit.createCriteria("hospital");
+			hospitalCrit.add(Restrictions.eq("id",hospitalId));
+			bloodRequests = bloodRequestCrit.list();
+			commit();
+			return bloodRequests;
+		} catch (HibernateException e) {
+			rollback();
+			throw new HospitalException("Could not get bloodrequest " + hospitalId, e);
 		}finally {
 			close();
 		}
@@ -71,6 +94,28 @@ public class BloodRequestDao extends DAO {
 			rollback();
 			System.out.println("*****\nCan not update bloodrequest"+bloodRequestId+"\n"+e.getMessage());
 			
+		}finally {
+			close();
+		}
+	}
+	
+	//Delete BloodRequest using its id
+	public void deleteBloodRequest(long bloodRequestId) {
+		try {
+			begin();
+			String deleteQuery="DELETE FROM BloodRequest WHERE id= :bloodRequestId";
+			Query q = getSession().createQuery(deleteQuery);
+			q.setLong("bloodRequestId", bloodRequestId);
+			int result = q.executeUpdate();
+			System.out.println("Rows Deleted are "+result);
+			commit();
+		}catch(HibernateException e) {
+			rollback();
+			System.out.println("****\nCan not delete bloodrequest"+ bloodRequestId+"\n"+e.getMessage());
+			
+		}catch(Exception e) {
+			rollback();
+			System.out.println("****\nCan not delete bloodrequest"+ bloodRequestId+"\n"+e.getMessage());
 		}finally {
 			close();
 		}

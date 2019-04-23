@@ -130,8 +130,8 @@ public class BloodBankController {
 		
 		//display requests to the console
 		for(BloodRequest bloodRequest: bloodRequests) {
-			System.out.println("\n| "+bloodRequest.getId()+" | "+bloodRequest.getDate()+" | "+bloodRequest.getBloodBank().getName()+" | "+
-					bloodRequest.getBloodBank().getEmail()+" | "+bloodRequest.getBloodBank().getPhone()+" | "
+			System.out.println("\n| "+bloodRequest.getId()+" | "+bloodRequest.getDate()+" | "+bloodRequest.getHospital().getName()+" | "+
+					bloodRequest.getHospital().getEmail()+" | "+bloodRequest.getHospital().getPhone()+" | "
 					+bloodRequest.getBloodType()+" | "+bloodRequest.getBloodAmount()+" | "+bloodRequest.getConfirmation()+" |");
 		}
 		

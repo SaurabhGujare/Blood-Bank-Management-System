@@ -19,19 +19,19 @@ table, th, td {
 </style>
 </head>
 <body>
-<h1>Blood Bank Requests</h1><br/><br/>
+<h1>Hospital Requests History</h1><br/><br/>
 <c:set var="srNo" value="0" scope="page"/>
 <table>
 <tr>
 <th>Sr No.</th>
 <th>Date Requested</th>
-<th>Hospital Name</th>
-<th>Hospital Email</th>
-<th>Hospital Phone</th>
+<th>Blood-Bank Name</th>
+<th>Blood-Bank Email</th>
+<th>Blood-Bank Phone</th>
 <th>Blood-Type</th>
 <th>Amount Requested</th>
 <th>Confirmation</th>
-<th>Approve/Disapprove(<sup>*</sup> Only Pending Requests)</th>
+<th>Delete(<sup>*</sup> Only Pending Requests)</th>
 </tr>
 <tr><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th></tr>
 <c:if test="${!requestScope.bloodRequestsList.isEmpty()}">
@@ -39,24 +39,18 @@ table, th, td {
           <tr>
                <td><c:out value="${srNo+1}" /></td>
                <td><c:out value="${bloodRequest.getDate()}" /></td> 
-               <td><c:out value="${bloodRequest.getHospital().getName()}"/></td>
-               <td><c:out value="${bloodRequest.getHospital().getEmail()}"/></td>
-               <td><c:out value="${bloodRequest.getHospital().getPhone()}"/></td>
+               <td><c:out value="${bloodRequest.getBloodBank().getName()}"/></td>
+               <td><c:out value="${bloodRequest.getBloodBank().getEmail()}"/></td>
+               <td><c:out value="${bloodRequest.getBloodBank().getPhone()}"/></td>
                <td><c:out value="${bloodRequest.getBloodType()}"/></td>
                <td><c:out value="${bloodRequest.getBloodAmount()}"/></td>
                <td><c:out value="${bloodRequest.getConfirmation()}"/></td>
                <td>
-               		<form action="${pageContext.request.contextPath}/login/bloodbank/bloodrequest" method="get">
+               		<form action="${pageContext.request.contextPath}/login/hospital/requesthistory" method="get">
                			<c:set var="bloodRequestId" value="${bloodRequest.getId()}"/>
                			<input type="hidden" value="${bloodRequestId}" name="bloodRequestId"/>
-               			<input type="hidden" value="approve" name="confirmationValue"/>
-               			<input type="submit" value="approve"/>
-               		</form>
-               		<form action="${pageContext.request.contextPath}/login/bloodbank/bloodrequest" method="get">
-               			<c:set var="bloodRequestId" value="${bloodRequest.getId()}"/>
-               			<input type="hidden" value="${bloodRequestId}" name="bloodRequestId"/>
-               			<input type="hidden" value="disapprove" name="confirmationValue"/>
-               			<input type="submit" value="disapprove"/>
+               			<input type="hidden" value="delete" name="delete"/>
+               			<input type="submit" value="Delete"/>
                		</form>
                </td>
           </tr>

@@ -14,6 +14,7 @@
 
 <a href="${pageContext.request.contextPath}/login/hospital/sendrequest">Send Blood Request</a><br/>
 <a href="${pageContext.request.contextPath}/login/hospital/bloodbanksstock">Blood Availability</a><br/>
+<a href="${pageContext.request.contextPath}/login/hospital/requesthistory">See Request History</a><br/>
 <a href="${pageContext.request.contextPath}/home">Logout</a><br/>
 </div>
 

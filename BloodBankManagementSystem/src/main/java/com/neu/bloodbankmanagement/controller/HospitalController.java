@@ -23,6 +23,8 @@ import com.neu.bloodbankmanagement.dao.BloodRequestDao;
 import com.neu.bloodbankmanagement.dao.DonorDao;
 import com.neu.bloodbankmanagement.dao.HospitalDao;
 import com.neu.bloodbankmanagement.exception.BloodBankException;
+import com.neu.bloodbankmanagement.exception.BloodRequestException;
+import com.neu.bloodbankmanagement.exception.DonationHistoryException;
 import com.neu.bloodbankmanagement.exception.HospitalException;
 import com.neu.bloodbankmanagement.pojo.BloodBank;
 import com.neu.bloodbankmanagement.pojo.BloodRequest;
@@ -79,11 +81,53 @@ public class HospitalController {
 			//save blood request
 			bloodRequestDao.save(bloodRequest);
 		
-		}
-
-		
-				
+		}		
 		return "redirect:/login";
 	}
+	
+	@RequestMapping(value = "/login/hospital/requesthistory", method = RequestMethod.GET)
+	public String showBloodBankRequests(HttpServletRequest request, HttpServletResponse response, ModelMap map, Model model) throws DonationHistoryException, NumberFormatException, BloodRequestException, HospitalException {
+		
+		//create a list to store the blood requests
+		List<BloodRequest> bloodRequests = new ArrayList<BloodRequest>();
+		
+		//Get session
+		HttpSession session = request.getSession();
+		System.out.println("\n\n\n***Blood Bank username"+(String)session.getAttribute("userName")+"\n\n");
+		
+		//Get hospital id from the username and password stored in session
+		String userName = (String)session.getAttribute("userName");
+		String password = (String)session.getAttribute("password");
+		Hospital hospital = hospitalDao.getHospital(userName, password);
+		
+		//************DELETE*********
+		
+		if(request.getParameter("delete")!=null) {
+			if(bloodRequestDao.getBloodRequestById(Long.parseLong(request.getParameter("bloodRequestId"))).getConfirmation().equals("pending")) {
+				System.out.println("\n*****Inside Update logic of controller");
+				System.out.println("Delete Value: "+request.getParameter("delete"));
+				bloodRequestDao.deleteBloodRequest(Long.parseLong(request.getParameter("bloodRequestId")));;
+			}
+		}
+		
+		//************DELETE ENDS HERE*********
+		
+		//get blood requests corresponding to the hospital
+		bloodRequests = bloodRequestDao.getHospitalBloodRequests(hospital.getId());
+		
+		
+		//display requests to the console
+		for(BloodRequest bloodRequest: bloodRequests) {
+			System.out.println("\n| "+bloodRequest.getId()+" | "+bloodRequest.getDate()+" | "+bloodRequest.getBloodBank().getName()+" | "+
+					bloodRequest.getBloodBank().getEmail()+" | "+bloodRequest.getBloodBank().getPhone()+" | "
+					+bloodRequest.getBloodType()+" | "+bloodRequest.getBloodAmount()+" | "+bloodRequest.getConfirmation()+" |");
+		}
+		
+		//send blood requests to the jsp
+		request.setAttribute("bloodRequestsList", bloodRequests);
+		
+		return "hospitalRequests";
+	}
+
 
 }
