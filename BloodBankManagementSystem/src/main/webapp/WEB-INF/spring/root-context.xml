@@ -9,5 +9,6 @@
 		<bean id="bloodBankDao" class="com.neu.bloodbankmanagement.dao.BloodBankDao"/>
 		<bean id="donorDao" class="com.neu.bloodbankmanagement.dao.DonorDao"/>
 		<bean id="donationHistoryDao" class="com.neu.bloodbankmanagement.dao.DonationHistoryDao"/>
+		<bean id="bloodRequestDao" class="com.neu.bloodbankmanagement.dao.BloodRequestDao"/>
 		
 </beans>

@@ -56,6 +56,9 @@ public class BloodBank {
 	@OneToMany(mappedBy="bloodBank")
 	private List<DonationHistory> donationHistory;
 	
+	@OneToMany(mappedBy="bloodBank")
+	private List<BloodRequest> bloodRequests;
+	
 	public BloodBank() {
 		
 	}
@@ -122,6 +125,15 @@ public class BloodBank {
 
 	public void setDonationHistory(List<DonationHistory> donationHistory) {
 		this.donationHistory = donationHistory;
+	}
+	
+
+	public List<BloodRequest> getBloodRequests() {
+		return bloodRequests;
+	}
+
+	public void setBloodRequests(List<BloodRequest> bloodRequests) {
+		this.bloodRequests = bloodRequests;
 	}
 
 	@Override

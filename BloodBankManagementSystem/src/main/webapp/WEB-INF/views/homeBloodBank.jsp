@@ -13,7 +13,7 @@
 <a href="${pageContext.request.contextPath}/login/bloodbank/donateform">DONATE</a><br/>
 <a href="${pageContext.request.contextPath}/login/bloodbank/searchdonor">SEARCH DONOR</a></br>
 <a href="${pageContext.request.contextPath}/login/bloodbank/stocks">BLOOD BANK STOCK</a></br>
-<a href="">BLOOD REQUESTS</a></br>
+<a href="${pageContext.request.contextPath}/login/bloodbank/bloodrequest">BLOOD REQUESTS</a></br>
 <a href="${pageContext.request.contextPath}/home">Logout</a>
 
 </div>

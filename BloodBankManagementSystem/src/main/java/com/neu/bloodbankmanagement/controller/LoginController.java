@@ -77,8 +77,7 @@ public class LoginController {
 			if(roleDao.checkLoginUser(loginUser.getUserName(),loginUser.getPassword(),request.getParameter("role"))) {
 				if(request.getParameter("role").equals("Hospital")) {
 					System.out.println("Redirecting to hospital dashboard");
-					return "homeHospital";
-					
+					return "homeHospital";	
 				}else if(request.getParameter("role").equals("Donor")) {
 					System.out.println("Redirecting to Donor dashboard");
 					return "homeDonor";

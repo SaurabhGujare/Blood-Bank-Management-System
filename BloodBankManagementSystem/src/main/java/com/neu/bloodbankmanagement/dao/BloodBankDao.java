@@ -1,5 +1,6 @@
 package com.neu.bloodbankmanagement.dao;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.hibernate.HibernateException;
@@ -40,10 +41,26 @@ public class BloodBankDao extends DAO {
 		
 	}
 	
+	public List<BloodBank> getAllBloodBanks() throws BloodBankException {
+		List<BloodBank> bloodBanks = new ArrayList<BloodBank>();
+		try {
+			begin();
+			Query q = getSession().createQuery("FROM BloodBank");
+			bloodBanks = q.list();
+			commit();
+			return bloodBanks;
+		} catch (HibernateException e) {
+			rollback();
+			throw new BloodBankException("Could not get bloodbanks " + e);
+		}finally {
+			close();
+		}
+	}
+	
 	public BloodBank getBloodBank(long id) throws BloodBankException {
 		try {
 			begin();
-			Query q = getSession().createQuery("from BloodBank where Id = :id");
+			Query q = getSession().createQuery("from BloodBank where id = :id");
 			q.setLong("id", id);
 			BloodBank bloodBank = (BloodBank) q.uniqueResult();
 			commit();
@@ -74,6 +91,24 @@ public class BloodBankDao extends DAO {
 		} catch (HibernateException e) {
 			rollback();
 			throw new BloodBankException("Could not get hospital " + userName, e);
+		}finally {
+			close();
+		}
+	}
+	
+	//get first blood bank from name
+	public BloodBank getBloodBank(String bloodBankName) throws BloodBankException {
+		List<BloodBank> bloodBanks = new ArrayList<BloodBank>();
+		try {
+			begin();
+			Query q = getSession().createQuery("from BloodBank where name = :name");
+			q.setString("name", bloodBankName);
+			bloodBanks = q.list();
+			commit();
+			return bloodBanks.get(0);
+		} catch (HibernateException e) {
+			rollback();
+			throw new BloodBankException("Could not get hospital " + bloodBankName, e);
 		}finally {
 			close();
 		}

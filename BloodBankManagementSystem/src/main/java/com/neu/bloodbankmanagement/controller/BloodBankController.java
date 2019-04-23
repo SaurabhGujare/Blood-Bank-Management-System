@@ -84,6 +84,11 @@ public class BloodBankController {
 		return "bloodBankStocks";
 	}
 	
-	
+	@RequestMapping(value = "/login/bloodbank/bloodrequest", method = RequestMethod.GET)
+	public String showBloodBankRequests(HttpServletRequest request, HttpServletResponse response, ModelMap map, Model model) throws BloodBankException, DonationHistoryException {
+		
+		
+		return "bloodBankRequests";
+	}
 
 }

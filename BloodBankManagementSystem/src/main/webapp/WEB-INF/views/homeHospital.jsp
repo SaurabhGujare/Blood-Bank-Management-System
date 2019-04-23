@@ -12,9 +12,9 @@
 
 <div>
 
-<a href="${pageContext.request.contextPath}/hospital/sendrequest">Send Blood Request</a>
-<a href="${pageContext.request.contextPath}/hospital/bloodbanksstock">Blood Availability</a>
-<a href="${pageContext.request.contextPath}/home">Logout</a>
+<a href="${pageContext.request.contextPath}/login/hospital/sendrequest">Send Blood Request</a><br/>
+<a href="${pageContext.request.contextPath}/login/hospital/bloodbanksstock">Blood Availability</a><br/>
+<a href="${pageContext.request.contextPath}/home">Logout</a><br/>
 </div>
 
 </body>

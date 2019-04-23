@@ -57,6 +57,24 @@ public class HospitalDao extends DAO {
 		}
 	}
 	
+	//get Hospital from userName and password
+	public Hospital getHospital(String userName, String password) throws HospitalException {
+		try {
+			begin();
+			Query q = getSession().createQuery("from Hospital where userName = :userName AND password = :password");
+			q.setString("userName", userName);
+			q.setString("password", password);
+			Hospital hospital = (Hospital) q.uniqueResult();
+			commit();
+			return hospital;
+		} catch (HibernateException e) {
+			rollback();
+			throw new HospitalException("Could not get hospital " + userName, e);
+		}finally {
+			close();
+		}
+	}
+	
 	//Authenticates whether email or username is already registered or not
 	public boolean AuthenticateHospitalRegistration(Hospital hospital) {
 		for(Role role: roleDao.getRoles()) {
