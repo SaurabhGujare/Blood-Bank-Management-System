@@ -17,11 +17,14 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.neu.bloodbankmanagement.dao.BloodBankDao;
+import com.neu.bloodbankmanagement.dao.BloodRequestDao;
 import com.neu.bloodbankmanagement.dao.DonationHistoryDao;
 import com.neu.bloodbankmanagement.dao.DonorDao;
 import com.neu.bloodbankmanagement.exception.BloodBankException;
+import com.neu.bloodbankmanagement.exception.BloodRequestException;
 import com.neu.bloodbankmanagement.exception.DonationHistoryException;
 import com.neu.bloodbankmanagement.pojo.BloodBank;
+import com.neu.bloodbankmanagement.pojo.BloodRequest;
 import com.neu.bloodbankmanagement.pojo.DonationHistory;
 
 
@@ -36,6 +39,9 @@ public class BloodBankController {
 
 	@Autowired
 	private DonationHistoryDao donationHistoryDao;
+	
+	@Autowired
+	private BloodRequestDao bloodRequestDao;
 	
 	@RequestMapping(value = "/login/bloodbank/searchdonor", method = RequestMethod.GET)
 	public String showBloodBankRespectiveDonors(HttpServletRequest request, HttpServletResponse response, ModelMap map, Model model) throws BloodBankException, DonationHistoryException {
@@ -63,6 +69,7 @@ public class BloodBankController {
 		
 		HttpSession session = request.getSession();
 		System.out.println("\n\n\n***Blood Bank username"+(String)session.getAttribute("userName")+"\n\n");
+		
 		//get Bloodbank id from username and password
 		BloodBank bloodBank = bloodBankDao.getBloodBankSession((String)session.getAttribute("userName"),(String) session.getAttribute("password"));
 		System.out.println(bloodBank);
@@ -85,8 +92,51 @@ public class BloodBankController {
 	}
 	
 	@RequestMapping(value = "/login/bloodbank/bloodrequest", method = RequestMethod.GET)
-	public String showBloodBankRequests(HttpServletRequest request, HttpServletResponse response, ModelMap map, Model model) throws BloodBankException, DonationHistoryException {
+	public String showBloodBankRequests(HttpServletRequest request, HttpServletResponse response, ModelMap map, Model model) throws BloodBankException, DonationHistoryException, NumberFormatException, BloodRequestException {
 		
+		//create a list to store the blood requests
+		List<BloodRequest> bloodRequests = new ArrayList<BloodRequest>();
+		
+		//Get session
+		HttpSession session = request.getSession();
+		System.out.println("\n\n\n***Blood Bank username"+(String)session.getAttribute("userName")+"\n\n");
+		
+		//Get blood bank id from the username and password stored in session
+		BloodBank bloodBank = bloodBankDao.getBloodBankSession((String)session.getAttribute("userName"),(String) session.getAttribute("password"));
+		System.out.println(bloodBank);
+		
+		//************UPDATE*********
+		//check wheter confirmationValue is null or not
+		//if null then display original request
+		//else update the confirmation value only when request is pending
+		
+		System.out.println("\n*****Above Update logic of controller");
+		System.out.println("Confirmation Value: "+request.getParameter("confirmationValue"));
+		
+		if(request.getParameter("confirmationValue")!=null) {
+			System.out.println("****\nconfirmation Value is not null");
+			if(bloodRequestDao.getBloodRequestById(Long.parseLong(request.getParameter("bloodRequestId"))).getConfirmation().equals("pending")) {
+				System.out.println("\n*****Inside Update logic of controller");
+				System.out.println("Confirmation Value: "+request.getParameter("confirmationValue"));
+				bloodRequestDao.updateConfirmationStatus(Long.parseLong(request.getParameter("bloodRequestId")), request.getParameter("confirmationValue"));
+			}
+			
+		}
+		//************UPDATE ENDS HERE*********
+		
+		//get blood requests
+		bloodRequests = bloodRequestDao.getBloodRequests(bloodBank.getId());
+		
+		
+		//display requests to the console
+		for(BloodRequest bloodRequest: bloodRequests) {
+			System.out.println("\n| "+bloodRequest.getId()+" | "+bloodRequest.getDate()+" | "+bloodRequest.getBloodBank().getName()+" | "+
+					bloodRequest.getBloodBank().getEmail()+" | "+bloodRequest.getBloodBank().getPhone()+" | "
+					+bloodRequest.getBloodType()+" | "+bloodRequest.getBloodAmount()+" | "+bloodRequest.getConfirmation()+" |");
+		}
+		
+		//send blood requests to the jsp
+		request.setAttribute("bloodRequestsList", bloodRequests);
 		
 		return "bloodBankRequests";
 	}
