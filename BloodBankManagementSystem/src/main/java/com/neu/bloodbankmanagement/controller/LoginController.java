@@ -52,8 +52,13 @@ public class LoginController {
 		return "home";
 	}
 	
-	@RequestMapping("/login")
-	public String showLoginPage(Model model){
+	@RequestMapping(value="/login", method = RequestMethod.GET)
+	public String showLoginPage(Model model,HttpServletRequest request){
+		HttpSession session = request.getSession();
+		System.out.println("\n\n*******Current Session is"+session.getId()+"\n"+(String)session.getAttribute("userName"));
+		if(session !=null) {
+			session.invalidate();
+		}
 		System.out.println("Inside showLoginPage");
 		model.addAttribute("loginUser", new LoginUser());
 		return "login";
@@ -77,16 +82,14 @@ public class LoginController {
 			if(roleDao.checkLoginUser(loginUser.getUserName(),loginUser.getPassword(),request.getParameter("role"))) {
 				if(request.getParameter("role").equals("Hospital")) {
 					System.out.println("Redirecting to hospital dashboard");
-					return "homeHospital";	
+					//return "homeHospital";	
+					return "redirect:/login/homehospital";
 				}else if(request.getParameter("role").equals("Donor")) {
 					System.out.println("Redirecting to Donor dashboard");
-					return "homeDonor";
-					
+					return "redirect:/login/homedonor";
 				}else if(request.getParameter("role").equals("BloodBank")) {
-					
 					System.out.println("Redirecting to Blood Bank dashboard");
-					return "homeBloodBank";
-					
+					return "redirect:/login/homebloodbank";
 				}else {
 					return "login";
 				}
@@ -95,6 +98,20 @@ public class LoginController {
 	
 			return "login";
 		}
+	}
+	
+	@RequestMapping(value= "/login/homehospital" , method = RequestMethod.GET)
+	public String showHospital() {
+		return "homeHospital";
+	}
+	
+	@RequestMapping(value= "/login/homedonor" , method = RequestMethod.GET)
+	public String showDonor() {
+		return "homeDonor";
+	}
+	@RequestMapping(value= "/login/homebloodbank" , method = RequestMethod.GET)
+	public String showBloodBank() {
+		return "homeBloodBank";
 	}
 
 }

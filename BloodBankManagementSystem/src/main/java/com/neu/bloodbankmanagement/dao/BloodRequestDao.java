@@ -6,10 +6,14 @@ import java.util.List;
 import org.hibernate.Criteria;
 import org.hibernate.HibernateException;
 import org.hibernate.Query;
+import org.hibernate.criterion.Order;
+import org.hibernate.criterion.ProjectionList;
+import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 
 import com.neu.bloodbankmanagement.exception.BloodBankException;
 import com.neu.bloodbankmanagement.exception.BloodRequestException;
+import com.neu.bloodbankmanagement.exception.DonationHistoryException;
 import com.neu.bloodbankmanagement.exception.HospitalException;
 import com.neu.bloodbankmanagement.pojo.BloodBank;
 import com.neu.bloodbankmanagement.pojo.BloodRequest;
@@ -142,5 +146,33 @@ public class BloodRequestDao extends DAO {
 		}
 		
 	}
+	
+	//Get blood stock from approved blood, group by BloodBank Name and Blood_Type
+		public List<Object[]> getApprovedStocks() throws DonationHistoryException{
+			try {
+				begin();
+				Criteria BloodRequestCrit = getSession().createCriteria(BloodRequest.class);
+				BloodRequestCrit.add(Restrictions.eq("confirmation","approve"));
+				ProjectionList projList = Projections.projectionList();
+				projList.add(Projections.groupProperty("bloodBank"));
+				projList.add(Projections.groupProperty("bloodType"));
+				projList.add(Projections.sum("bloodAmount"));
+				BloodRequestCrit.setProjection(projList);
+				BloodRequestCrit.addOrder(Order.asc("bloodBank"));
+				BloodRequestCrit.addOrder(Order.asc("bloodType"));
+				System.out.println("*****\n\nInside try::DonationHistoryDao.getBloodBankStock() ");
+				List<Object[]> results = BloodRequestCrit.list();//list contains three references one is String and other is int
+				commit();
+				return results;
+				
+			}catch(HibernateException e){
+				System.out.println("*****\n\nInside catch::DonationHistoryDao.getBloodBankStock() ");
+				rollback();
+				throw new DonationHistoryException("Could not get blood bank stock");
+				
+			}finally {
+				close();
+			}
+		}
 
 }

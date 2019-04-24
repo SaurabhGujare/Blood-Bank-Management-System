@@ -6,6 +6,7 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<%@ include file="/resources/head.jsp"%>
 <style>
 table {
   border-collapse: collapse;
@@ -19,6 +20,8 @@ table, th, td {
 </style>
 </head>
 <body>
+<a href="${pageContext.request.contextPath}/home">Logout</a><br/>
+<a href="${pageContext.request.contextPath}/login/homebloodbank">Back</a><br/>
 <h1>Blood Bank Requests</h1><br/><br/>
 <c:set var="srNo" value="0" scope="page"/>
 <table>
@@ -31,13 +34,14 @@ table, th, td {
 <th>Blood-Type</th>
 <th>Amount Requested</th>
 <th>Confirmation</th>
-<th>Approve/Disapprove(<sup>*</sup> Only Pending Requests)</th>
+<th>Approve/Disapprove ( <sup>*</sup>Only Pending Requests)</th>
 </tr>
 <tr><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th></tr>
 <c:if test="${!requestScope.bloodRequestsList.isEmpty()}">
 	<c:forEach items="${requestScope.bloodRequestsList}" var="bloodRequest">
+	<c:set var="srNo" value="${srNo+1}" scope="page"/>
           <tr>
-               <td><c:out value="${srNo+1}" /></td>
+               <td><c:out value="${srNo}" /></td>
                <td><c:out value="${bloodRequest.getDate()}" /></td> 
                <td><c:out value="${bloodRequest.getHospital().getName()}"/></td>
                <td><c:out value="${bloodRequest.getHospital().getEmail()}"/></td>
@@ -67,8 +71,7 @@ table, th, td {
 
 <c:if test="${requestScope.bloodRequestsList.isEmpty()}">
 <br/><h3>No Blood Requests Yet!!</h3>
-</c:if> 
-
+</c:if> <br/><br/>
 
 </body>
 </html>

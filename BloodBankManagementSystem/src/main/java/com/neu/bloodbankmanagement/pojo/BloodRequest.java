@@ -1,7 +1,7 @@
 package com.neu.bloodbankmanagement.pojo;
 
 import java.util.Date;
-import java.util.HashMap;
+
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -12,9 +12,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-import org.springframework.beans.factory.annotation.Autowired;
-
-import com.neu.bloodbankmanagement.dao.DonorDao;
 
 @Entity
 @Table(name="blood_request")

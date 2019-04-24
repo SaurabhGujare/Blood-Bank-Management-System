@@ -42,14 +42,14 @@ public class DonateController {
 	//amount donated at once is always 450ml
 	static final int BLOOD_AMOUNT = 450; 
 
-	@RequestMapping(value = "/login/bloodbank/donateform", method = RequestMethod.GET)
+	@RequestMapping(value = "/login/homebloodbank/donateform", method = RequestMethod.GET)
 	public ModelAndView showDonateForm(HttpServletRequest request, HttpServletResponse response, ModelMap map, Model model) {
 		//request.setAttribute("hospital", new Hospital());
 		model.addAttribute("donationHistory", new DonationHistory());
 		return new ModelAndView("DonateForm");
 	}
 	
-	@RequestMapping(value = "/login/bloodbank/donateform", method = RequestMethod.POST)
+	@RequestMapping(value = "/login/homebloodbank/donateform", method = RequestMethod.POST)
 	public String processDonateForm(HttpServletRequest request, HttpServletResponse response) throws ParseException, DonorException, BloodBankException, DonationHistoryException {
 		HttpSession session = request.getSession();
 		String donarEmail;

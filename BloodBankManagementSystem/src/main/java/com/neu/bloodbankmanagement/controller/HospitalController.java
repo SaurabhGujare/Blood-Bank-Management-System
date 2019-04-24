@@ -1,7 +1,9 @@
 package com.neu.bloodbankmanagement.controller;
 
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -20,6 +22,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.neu.bloodbankmanagement.dao.BloodBankDao;
 import com.neu.bloodbankmanagement.dao.BloodRequestDao;
+import com.neu.bloodbankmanagement.dao.DonationHistoryDao;
 import com.neu.bloodbankmanagement.dao.DonorDao;
 import com.neu.bloodbankmanagement.dao.HospitalDao;
 import com.neu.bloodbankmanagement.exception.BloodBankException;
@@ -27,6 +30,7 @@ import com.neu.bloodbankmanagement.exception.BloodRequestException;
 import com.neu.bloodbankmanagement.exception.DonationHistoryException;
 import com.neu.bloodbankmanagement.exception.HospitalException;
 import com.neu.bloodbankmanagement.pojo.BloodBank;
+import com.neu.bloodbankmanagement.pojo.BloodBankStockAvailability;
 import com.neu.bloodbankmanagement.pojo.BloodRequest;
 import com.neu.bloodbankmanagement.pojo.Hospital;
 
@@ -42,7 +46,10 @@ public class HospitalController {
 	@Autowired
 	private BloodRequestDao bloodRequestDao;
 	
-	@RequestMapping(value = "login/hospital/sendrequest", method = RequestMethod.GET)
+	@Autowired 
+	private DonationHistoryDao donationHistoryDao;
+	
+	@RequestMapping(value = "login/homehospital/sendrequest", method = RequestMethod.GET)
 	public ModelAndView showRequestForm(HttpServletRequest request, HttpServletResponse response, ModelMap map, Model model) throws BloodBankException {
 		//request.setAttribute("hospital", new Hospital());
 		List<BloodBank> bloodBanks = new ArrayList<BloodBank>();
@@ -54,7 +61,7 @@ public class HospitalController {
 		return new ModelAndView("requestForm");
 	}
 	
-	@RequestMapping(value = "login/hospital/sendrequest", method = RequestMethod.POST)
+	@RequestMapping(value = "login/homehospital/sendrequest", method = RequestMethod.POST)
 	public String processRequestForm(@Valid @ModelAttribute("bloodRequest") BloodRequest bloodRequest, BindingResult bindingResult,HttpServletRequest request) throws BloodBankException, HospitalException {
 		HttpSession session = request.getSession();
 		if(bindingResult.hasErrors()) {
@@ -85,7 +92,7 @@ public class HospitalController {
 		return "redirect:/login";
 	}
 	
-	@RequestMapping(value = "/login/hospital/requesthistory", method = RequestMethod.GET)
+	@RequestMapping(value = "/login/homehospital/requesthistory", method = RequestMethod.GET)
 	public String showBloodBankRequests(HttpServletRequest request, HttpServletResponse response, ModelMap map, Model model) throws DonationHistoryException, NumberFormatException, BloodRequestException, HospitalException {
 		
 		//create a list to store the blood requests
@@ -113,21 +120,52 @@ public class HospitalController {
 		//************DELETE ENDS HERE*********
 		
 		//get blood requests corresponding to the hospital
-		bloodRequests = bloodRequestDao.getHospitalBloodRequests(hospital.getId());
 		
-		
-		//display requests to the console
-		for(BloodRequest bloodRequest: bloodRequests) {
-			System.out.println("\n| "+bloodRequest.getId()+" | "+bloodRequest.getDate()+" | "+bloodRequest.getBloodBank().getName()+" | "+
-					bloodRequest.getBloodBank().getEmail()+" | "+bloodRequest.getBloodBank().getPhone()+" | "
-					+bloodRequest.getBloodType()+" | "+bloodRequest.getBloodAmount()+" | "+bloodRequest.getConfirmation()+" |");
+		if(bloodRequestDao.getHospitalBloodRequests(hospital.getId())!=null) {
+			
+			bloodRequests = bloodRequestDao.getHospitalBloodRequests(hospital.getId());
+			
+			System.out.println("\n********"+bloodRequests);
+			//display requests to the console
+			for(BloodRequest bloodRequest: bloodRequests) {
+				System.out.println("**********");
+				System.out.println("\n| "+bloodRequest.getId()+" | "+bloodRequest.getDate()+" | "+bloodRequest.getBloodBank().getName()+" | "+
+						bloodRequest.getBloodBank().getEmail()+" | "+bloodRequest.getBloodBank().getPhone()+" | "
+						+bloodRequest.getBloodType()+" | "+bloodRequest.getBloodAmount()+" | "+bloodRequest.getConfirmation()+" |");
+			}
+			
+			//send blood requests to the jsp
+			request.setAttribute("bloodRequestsList", bloodRequests);
 		}
 		
-		//send blood requests to the jsp
-		request.setAttribute("bloodRequestsList", bloodRequests);
-		
 		return "hospitalRequests";
+		
 	}
-
+	//Show Current Stock available
+	@RequestMapping(value = "/login/homehospital/bloodbanksstock", method = RequestMethod.GET)
+	public String showBloodAvailability(HttpServletRequest request, HttpServletResponse response, ModelMap map, Model model) throws DonationHistoryException {
+		
+				List<Object[]> currentBloodStocks = hospitalDao.getCurrentStock();
+				ArrayList<Map.Entry<String,Object>> entries = new ArrayList<Map.Entry<String,Object>>();
+				ArrayList<Object> values  =new ArrayList<Object>();
+				
+				
+				for(Object stock:currentBloodStocks) {
+					 System.out.println("||");
+					for (Map.Entry<String,Object> entry : ((Map<String, Object>) stock).entrySet()) {
+						System.out.println("Key = " + entry.getKey() + 
+	                             ", Value = " + entry.getValue());
+						entries.add(entry);
+						values.add(entry.getValue());
+					}
+			            System.out.println("||");
+				}
+				for(Object obj: values) {
+					System.out.println("*****\n"+obj+"\n");
+				}
+				request.setAttribute("values", values);
+				
+		return "currentBloodStock";
+	}
 
 }

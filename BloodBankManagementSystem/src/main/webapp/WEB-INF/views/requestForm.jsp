@@ -7,9 +7,10 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<%@ include file="/resources/head.jsp"%>
 </head>
 <body>
-
+<a href="${pageContext.request.contextPath}/login/homehospital">Back</a><br/>
 <h1>Blood Request</h1>
 <form:form  action="${pageContext.request.contextPath}/login/hospital/sendrequest" modelAttribute="bloodRequest">
 
@@ -44,11 +45,13 @@
    <c:if test="${requestScope.bloodBankList.isEmpty()}">
    	<form:option value="noBloodBank" label="No BloodBank Available"/>
    </c:if>  
-<select><br/>
+</select><br/>
 
  <input type="submit" value="Send Request"/><br/>
  <input type="reset" value="Clear Form"/><br/>
 
 </form:form>
+
+
 </body>
 </html>

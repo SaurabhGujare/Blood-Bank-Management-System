@@ -43,7 +43,7 @@ public class BloodBankController {
 	@Autowired
 	private BloodRequestDao bloodRequestDao;
 	
-	@RequestMapping(value = "/login/bloodbank/searchdonor", method = RequestMethod.GET)
+	@RequestMapping(value = "/login/homebloodbank/searchdonor", method = RequestMethod.GET)
 	public String showBloodBankRespectiveDonors(HttpServletRequest request, HttpServletResponse response, ModelMap map, Model model) throws BloodBankException, DonationHistoryException {
 		
 		HttpSession session = request.getSession();
@@ -64,7 +64,7 @@ public class BloodBankController {
 		return "bloodBankDonors";
 	}
 	
-	@RequestMapping(value = "/login/bloodbank/stocks", method = RequestMethod.GET)
+	@RequestMapping(value = "/login/homebloodbank/stocks", method = RequestMethod.GET)
 	public String showBloodBankStocks(HttpServletRequest request, HttpServletResponse response, ModelMap map, Model model) throws BloodBankException, DonationHistoryException {
 		
 		HttpSession session = request.getSession();
@@ -76,8 +76,7 @@ public class BloodBankController {
 		
 		//get blood bank stocks
 		List<Object[]> bloodBankStocks =  donationHistoryDao.getBloodBankStock(bloodBank.getId());
-		String[] bloodTypes = new String[bloodBankStocks.get(0).length]; 
-		Integer[] totalBloodAmount = new Integer[bloodBankStocks.get(1).length];
+
 		
 		System.out.println("*****\n\nType||Amount\n");
 		
@@ -91,7 +90,7 @@ public class BloodBankController {
 		return "bloodBankStocks";
 	}
 	
-	@RequestMapping(value = "/login/bloodbank/bloodrequest", method = RequestMethod.GET)
+	@RequestMapping(value = "/login/homebloodbank/bloodrequest", method = RequestMethod.GET)
 	public String showBloodBankRequests(HttpServletRequest request, HttpServletResponse response, ModelMap map, Model model) throws BloodBankException, DonationHistoryException, NumberFormatException, BloodRequestException {
 		
 		//create a list to store the blood requests

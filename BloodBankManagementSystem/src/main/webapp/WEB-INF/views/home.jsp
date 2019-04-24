@@ -4,6 +4,8 @@
 <html>
 <head>
 	<title>Home</title>
+	<%@ include file="/resources/head.jsp"%>
+	
 </head>
 <body>
 <h1>
@@ -20,7 +22,7 @@
 <br/>
 <p><strong>LOGIN</strong></p>
 
-<form:form action="${pageContext.request.contextPath}/login"> 
+<form:form action="${pageContext.request.contextPath}/login" method="get"> 
 	<input type="submit" value="Login" /><br/>
 </form:form>
 </body>

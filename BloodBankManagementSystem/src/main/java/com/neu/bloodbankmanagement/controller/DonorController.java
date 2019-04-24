@@ -27,7 +27,7 @@ public class DonorController {
 	@Autowired
 	private DonationHistoryDao donationHistoryDao;
 	
-	@RequestMapping(value="/login/donor/donationhistory", method=RequestMethod.GET)
+	@RequestMapping(value="/login/homedonor/donationhistory", method=RequestMethod.GET)
 	public String getDonorHistory(HttpServletRequest request, HttpServletResponse response) throws DonorException, DonationHistoryException {
 		
 		HttpSession session = request.getSession();

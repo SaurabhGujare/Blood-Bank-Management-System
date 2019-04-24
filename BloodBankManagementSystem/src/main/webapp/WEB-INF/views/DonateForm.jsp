@@ -7,8 +7,11 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<%@ include file="/resources/head.jsp"%>
 </head>
 <body>
+<a href="${pageContext.request.contextPath}/home">Logout</a><br/>
+<a href="${pageContext.request.contextPath}/login/homebloodbank">Back</a><br/>
 
 <h1>Donation Form</h1>
 <br/>

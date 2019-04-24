@@ -58,7 +58,7 @@ public class Donor {
 	
 	@Column(name="Username")
 	@NotNull(message="is required")
-	@Size(min=5, max=8, message="Minimum 5 and Maximum 8 characters required")
+	@Size(min=5, max=15, message="Minimum 5 and Maximum 15 characters required")
 	private String userName;
 	
 	@Column(name="Password")

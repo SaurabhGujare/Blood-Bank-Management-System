@@ -2,13 +2,12 @@ package com.neu.bloodbankmanagement.pojo;
 
 import javax.persistence.Column;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
 public class LoginUser {
 	@Column(name="Username")
 	@NotNull(message="is required")
-	@Size(min=5, max=8, message="Minimum 5 and Maximum 8 characters required")
+	@Size(min=5, max=15, message="Minimum 5 and Maximum 15 characters required")
 	private String userName;
 	
 	@Column(name="Password")

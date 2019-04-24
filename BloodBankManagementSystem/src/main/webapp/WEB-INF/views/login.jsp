@@ -7,6 +7,7 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<%@ include file="/resources/head.jsp"%>
 </head>
 <body>
 <h1>Login </h1><br/><br/>

@@ -6,6 +6,7 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<%@ include file="/resources/head.jsp"%>
 <style>
 table {
   border-collapse: collapse;
@@ -18,6 +19,8 @@ table, th, td {
 </style>
 </head>
 <body>
+<a href="${pageContext.request.contextPath}/home">Logout</a><br/>
+<a href="${pageContext.request.contextPath}/login/homebloodbank">Back</a><br/>
 <h1>Blood Bank Donor's List</h1>
 <table>
 <tr>
