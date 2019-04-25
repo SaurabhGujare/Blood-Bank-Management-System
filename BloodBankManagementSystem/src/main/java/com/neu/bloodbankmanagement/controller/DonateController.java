@@ -43,11 +43,11 @@ public class DonateController {
 	private DonationHistoryDao donationHistoryDao;
 	
 	//InitBinder is a preprocessor used here to remove white spaces
-//	@InitBinder
-//	public void initBinder(WebDataBinder webDataBinder) {
-//		StringTrimmerEditor stringTrimmerEditor = new StringTrimmerEditor(true);
-//		webDataBinder.registerCustomEditor(String.class, stringTrimmerEditor);
-//	}
+	@InitBinder
+	public void initBinder(WebDataBinder webDataBinder) {
+		StringTrimmerEditor stringTrimmerEditor = new StringTrimmerEditor(true);
+		webDataBinder.registerCustomEditor(String.class, stringTrimmerEditor);
+	}
 	
 	//amount donated at once is always 450ml
 	static final int BLOOD_AMOUNT = 450; 

@@ -1,5 +1,6 @@
 package com.neu.bloodbankmanagement.controller;
 
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -12,6 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
+import org.apache.commons.mail.EmailException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.StringTrimmerEditor;
 import org.springframework.stereotype.Controller;
@@ -38,6 +40,7 @@ import com.neu.bloodbankmanagement.pojo.BloodBank;
 import com.neu.bloodbankmanagement.pojo.BloodBankStockAvailability;
 import com.neu.bloodbankmanagement.pojo.BloodRequest;
 import com.neu.bloodbankmanagement.pojo.Hospital;
+import com.neu.bloodbankmanagement.utils.EmailFunctionality;
 
 @Controller
 public class HospitalController {
@@ -79,7 +82,7 @@ public class HospitalController {
 	}
 	
 	@RequestMapping(value = "login/homehospital/sendrequest", method = RequestMethod.POST)
-	public String processRequestForm(@Valid @ModelAttribute("bloodRequest") BloodRequest bloodRequest, BindingResult bindingResult,HttpServletRequest request) throws BloodBankException, HospitalException, ParseException {
+	public String processRequestForm(@Valid @ModelAttribute("bloodRequest") BloodRequest bloodRequest, BindingResult bindingResult,HttpServletRequest request) throws BloodBankException, HospitalException, ParseException, EmailException {
 		HttpSession session = request.getSession();
 		if(session.getAttribute("userName")==null) {
 			request.setAttribute("request", request);
@@ -114,6 +117,7 @@ public class HospitalController {
 			
 			//save blood request
 			bloodRequestDao.save(bloodRequest);
+			EmailFunctionality.bloodRequestSent(hospital.getEmail(), bloodBank.getName());
 			return "redirect:/login/homehospital";
 		}		
 		

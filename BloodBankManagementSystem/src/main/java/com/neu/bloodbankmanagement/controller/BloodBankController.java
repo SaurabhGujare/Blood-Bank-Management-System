@@ -131,7 +131,7 @@ public class BloodBankController {
 		System.out.println(bloodBank);
 		
 		//************UPDATE*********
-		//check wheter confirmationValue is null or not
+		//check whether confirmationValue is null or not
 		//if null then display original request
 		//else update the confirmation value only when request is pending
 		

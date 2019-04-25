@@ -9,6 +9,8 @@ import javax.validation.ConstraintValidatorContext;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.neu.bloodbankmanagement.dao.BloodBankDao;
+import com.neu.bloodbankmanagement.dao.DonorDao;
+import com.neu.bloodbankmanagement.dao.HospitalDao;
 import com.neu.bloodbankmanagement.pojo.BloodBank;
 
 
@@ -18,7 +20,7 @@ public class CheckBloodBankEmailContraintValidator implements ConstraintValidato
 	
 	@Autowired
 	private BloodBankDao bloodBankDao;
-
+	
 	@Override
 	public boolean isValid(String userEnteredValue, ConstraintValidatorContext context) {
 		// TODO Auto-generated method stub
