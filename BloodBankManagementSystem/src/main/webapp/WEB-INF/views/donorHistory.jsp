@@ -21,6 +21,7 @@ table, th, td {
 <body>
 <a href="${pageContext.request.contextPath}/home">Logout</a><br/>
 <a href="${pageContext.request.contextPath}/login/homedonor">Back</a><br/>
+<h3><u>Logged In</u>: ${sessionScope.userName}</h3><br/><br/>
 <h1>Donor History</h1><br/><br/>
 <table>
 <tr>

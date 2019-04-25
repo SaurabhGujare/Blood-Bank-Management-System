@@ -11,6 +11,7 @@
 <%@ include file="/resources/head.jsp"%>
 </head>
 <body>
+<a href="${pageContext.request.contextPath}/">Back</a><br/>
 
 <h1>Welcome to Hospital Registration</h1><br/>
 <!-- commandName="hospital" -->

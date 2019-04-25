@@ -156,11 +156,11 @@ public class Donor {
 	}
 
 	public String getPassword() {
-		return UtilsSecure.decrypt(password);
+		return password;
 	}
 
 	public void setPassword(String password) {
-		this.password = UtilsSecure.encrypt(password);
+		this.password = password;
 	}
 
 	public Role getRole() {

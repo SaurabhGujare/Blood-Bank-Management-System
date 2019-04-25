@@ -18,6 +18,7 @@ import com.neu.bloodbankmanagement.exception.DonationHistoryException;
 import com.neu.bloodbankmanagement.exception.DonorException;
 import com.neu.bloodbankmanagement.pojo.DonationHistory;
 import com.neu.bloodbankmanagement.pojo.Donor;
+import com.neu.bloodbankmanagement.utils.UtilsSecure;
 
 
 
@@ -41,18 +42,19 @@ public class DonorController {
 	public String getDonorHistory(HttpServletRequest request, HttpServletResponse response) throws DonorException, DonationHistoryException {
 		
 		HttpSession session = request.getSession();
-		System.out.println("\n\n\n***Donor username"+(String)session.getAttribute("userName")+"\n\n"+request.getRequestURI());
+		System.out.println("\n\n\n***Donor username "+(String)session.getAttribute("password")+"\n\n"+request.getRequestURI());
 		
 		if(session.getAttribute("userName")==null) {
 			request.setAttribute("request", request);
 			return "ExceptionLoginRequired";
 		}
 		//get donor id from the session w.t.h. of Donor dao
-		Donor donor = donorDao.getDonor((String)session.getAttribute("userName"), (String)session.getAttribute("password"));
+		Donor donor = donorDao.getDonor((String)session.getAttribute("userName"), (String)session.getAttribute(("password")));
 		System.out.println(donor);
 		
 		//get donation history of the Donor and print to console
 		System.out.println("Date|BloodBank Name| ");
+		
 		for(DonationHistory dh: donationHistoryDao.getDonorHistory(donor.getId())) {
 			System.out.println(dh.getDate()+" | "+dh.getBloodBank().getName());
 		}

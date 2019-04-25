@@ -23,6 +23,7 @@ table, th, td {
 <body>
 <a href="${pageContext.request.contextPath}/home">Logout</a><br/>
 <a href="${pageContext.request.contextPath}/login/homebloodbank">Back</a><br/>
+<h3><u>Logged In</u>: ${sessionScope.userName}</h3><br/><br/>
 <h1>Blood Bank Stocks</h1><br/><br/>
 <table>
 <tr>

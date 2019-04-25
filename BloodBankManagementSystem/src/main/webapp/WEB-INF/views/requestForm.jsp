@@ -11,6 +11,7 @@
 </head>
 <body>
 <a href="${pageContext.request.contextPath}/login/homehospital">Back</a><br/>
+<h3><u>Logged In</u>: ${sessionScope.userName}</h3><br/><br/>
 <h1>Blood Request</h1>
 <form:form  action="${pageContext.request.contextPath}/login/homehospital/sendrequest" modelAttribute="bloodRequest">
 

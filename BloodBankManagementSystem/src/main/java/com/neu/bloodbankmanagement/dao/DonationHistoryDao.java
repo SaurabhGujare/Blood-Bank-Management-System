@@ -93,10 +93,12 @@ public class DonationHistoryDao extends DAO {
 			Criteria donorCrit = donationHistoryCrit.createCriteria("donor");
 			donorCrit.add(Restrictions.eq("id",donorId));
 			donorHistory=donationHistoryCrit.list();
+			System.out.println("\n\n*************1");
 			commit();
 			return donorHistory;
 		}catch(HibernateException e) {
 			rollback();
+			System.out.println("\n\n*************2");
 			throw new DonationHistoryException("Could not get Donation History");
 		}finally {
 			close();

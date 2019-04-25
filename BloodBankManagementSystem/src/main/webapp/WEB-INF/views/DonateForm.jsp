@@ -12,9 +12,10 @@
 <body>
 <a href="${pageContext.request.contextPath}/home">Logout</a><br/>
 <a href="${pageContext.request.contextPath}/login/homebloodbank">Back</a><br/>
-
+<h1><u>Logged In</u>: ${sessionScope.userName}</h1><br/><br/>
 <h1>Donation Form</h1>
 <br/>
+
 
 <form action="${pageContext.request.contextPath}/login/homebloodbank/donateform" method="post">
 <label>Name: </label><input type="text" name="donarName" /><br/>

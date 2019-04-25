@@ -9,6 +9,7 @@
 </head>
 <body>
 <% System.out.println("on page HomeHospital");  %>
+<h3><u>Logged In</u>: ${sessionScope.userName}</h3><br/><br/>
 <h1>Hospital's Login Home Page</h1><br/></br>
 
 <div>

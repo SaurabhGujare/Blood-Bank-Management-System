@@ -22,6 +22,7 @@ table, th, td {
 <body>
 <a href="${pageContext.request.contextPath}/home">Logout</a><br/>
 <a href="${pageContext.request.contextPath}/login/homehospital">Back</a><br/>
+<h3><u>Logged In</u>: ${sessionScope.userName}</h3><br/><br/>
 <h1>Blood Availablity at the BloodBanks</h1><br/><br/>
 <c:set var="srNo" value="0" scope="page"/>
 <table>

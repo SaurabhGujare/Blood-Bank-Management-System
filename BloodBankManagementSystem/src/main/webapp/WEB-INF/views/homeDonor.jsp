@@ -10,6 +10,7 @@
 <body>
 
 <% System.out.println("on page HomeDonor");  %>
+<h3><u>Logged In</u>: ${sessionScope.userName}</h3><br/><br/>
 <h1>Donor's Login Home Page</h1><br/><br/>
 
 <div>
