@@ -10,9 +10,12 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.propertyeditors.StringTrimmerEditor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
@@ -39,12 +42,25 @@ public class DonateController {
 	@Autowired
 	private DonationHistoryDao donationHistoryDao;
 	
+	//InitBinder is a preprocessor used here to remove white spaces
+//	@InitBinder
+//	public void initBinder(WebDataBinder webDataBinder) {
+//		StringTrimmerEditor stringTrimmerEditor = new StringTrimmerEditor(true);
+//		webDataBinder.registerCustomEditor(String.class, stringTrimmerEditor);
+//	}
+	
 	//amount donated at once is always 450ml
 	static final int BLOOD_AMOUNT = 450; 
 
 	@RequestMapping(value = "/login/homebloodbank/donateform", method = RequestMethod.GET)
 	public ModelAndView showDonateForm(HttpServletRequest request, HttpServletResponse response, ModelMap map, Model model) {
 		//request.setAttribute("hospital", new Hospital());
+		HttpSession session = request.getSession();
+		if(session.getAttribute("userName")==null) {
+			System.out.println("\n\n******"+session+"******\n\n");
+			request.setAttribute("request", request);
+			return new ModelAndView("ExceptionLoginRequired");
+		}
 		model.addAttribute("donationHistory", new DonationHistory());
 		return new ModelAndView("DonateForm");
 	}
@@ -55,7 +71,8 @@ public class DonateController {
 		String donarEmail;
 		Date donattionDate;
 		donarEmail = request.getParameter("donarEmail");
-		donattionDate = new SimpleDateFormat("MM/dd/yyyy").parse(request.getParameter("donationDate"));
+		System.out.println(request.getParameter("donationDate"));
+		donattionDate = new SimpleDateFormat("yyyy-MM-dd").parse(request.getParameter("donationDate"));
 		//get donor and check him with the credentials entered
 		//if donor if valid then add its donation history else throw donate form view
 		System.out.println(donarEmail);

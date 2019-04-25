@@ -23,7 +23,7 @@
 	<label>Username:</label>
 	<form:input type="text" path="userName" name="userName"/><form:errors path="userName"/><br/>
 	<label>Password:</label>
-	<form:input type="password" path="password" name="password"/><form:errors path="userName"/><br/>
+	<form:input type="password" path="password" name="password"/><form:errors path="password"/><br/>
 	<input type="submit" value="Login" /><br/>
 </form:form>
 

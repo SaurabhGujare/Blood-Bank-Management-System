@@ -12,10 +12,7 @@
 <body>
 <a href="${pageContext.request.contextPath}/login/homehospital">Back</a><br/>
 <h1>Blood Request</h1>
-<form:form  action="${pageContext.request.contextPath}/login/hospital/sendrequest" modelAttribute="bloodRequest">
-
-<label>Today's Date:</label>
-<form:input type="date" path="date"/><form:errors path="date"/><br/>
+<form:form  action="${pageContext.request.contextPath}/login/homehospital/sendrequest" modelAttribute="bloodRequest">
 
 <label>Blood Amount:</label>
 <form:input type="text" path="bloodAmount"/><form:errors path="bloodAmount"/><br/>
@@ -47,7 +44,7 @@
    </c:if>  
 </select><br/>
 
- <input type="submit" value="Send Request"/><br/>
+ <input type="submit" value="Send Request"/><br/><br/>
  <input type="reset" value="Clear Form"/><br/>
 
 </form:form>

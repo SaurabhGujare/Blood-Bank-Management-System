@@ -50,7 +50,7 @@ table, th, td {
                <td><c:out value="${bloodRequest.getBloodAmount()}"/></td>
                <td><c:out value="${bloodRequest.getConfirmation()}"/></td>
                <td>
-               		<form action="${pageContext.request.contextPath}/login/hospital/requesthistory" method="get">
+               		<form action="${pageContext.request.contextPath}/login/homehospital/requesthistory" method="get">
                			<c:set var="bloodRequestId" value="${bloodRequest.getId()}"/>
                			<input type="hidden" value="${bloodRequestId}" name="bloodRequestId"/>
                			<input type="hidden" value="delete" name="delete"/>

@@ -50,7 +50,7 @@ public class AuthenticationController {
 	
 	@RequestMapping("/")
 	public String showHome(HttpServletRequest request){
-		
+		request.getSession().invalidate();
 		return "home";
 	}
 	
@@ -66,6 +66,7 @@ public class AuthenticationController {
 	@RequestMapping(value = "/registerhospital", method = RequestMethod.GET)
 	public ModelAndView showHospitalRegister(HttpServletRequest request, HttpServletResponse response, ModelMap map, Model model) {
 		//request.setAttribute("hospital", new Hospital());
+		request.getSession().invalidate();
 		model.addAttribute("hospital", new Hospital());
 		return new ModelAndView("registerHospital");
 	}
@@ -106,6 +107,7 @@ public class AuthenticationController {
 	@RequestMapping(value = "/registerbloodbank", method = RequestMethod.GET)
 	public ModelAndView showBloodBankRegister(HttpServletRequest request, HttpServletResponse response, ModelMap map, Model model) {
 		//request.setAttribute("hospital", new Hospital());
+		request.getSession().invalidate();
 		model.addAttribute("bloodBank", new BloodBank());
 		return new ModelAndView("registerBloodBank");
 	}
@@ -140,6 +142,7 @@ public class AuthenticationController {
 	@RequestMapping(value = "/registerdonor", method = RequestMethod.GET)
 	public ModelAndView showdonorRegister(HttpServletRequest request, HttpServletResponse response, ModelMap map, Model model) {
 		//request.setAttribute("hospital", new Hospital());
+		request.getSession().invalidate();
 		model.addAttribute("donor", new Donor());
 		return new ModelAndView("registerDonor");
 	}
@@ -160,7 +163,7 @@ public class AuthenticationController {
 			role.setRole("Donor");
 			
 			System.out.println("*********\n"+request.getParameter("dob"));
-			Date dateOfBirth = new SimpleDateFormat("MM/dd/yyyy").parse(request.getParameter("dob"));
+			Date dateOfBirth = new SimpleDateFormat("yyyy-MM-dd").parse(request.getParameter("dob"));
 			donor.setDateOfBirth(dateOfBirth);
 			
 			donor.setRole(role);//This will also save the role because of the CascadeType.All

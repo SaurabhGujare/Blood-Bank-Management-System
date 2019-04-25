@@ -17,6 +17,10 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
+import com.neu.bloodbankmanagement.utils.UtilsSecure;
+import com.neu.bloodbankmanagement.validation.CheckDonorEmail;
+import com.neu.bloodbankmanagement.validation.CheckDonorUserName;
+
 @Entity
 @Table(name="donor")
 public class Donor {
@@ -46,6 +50,7 @@ public class Donor {
 	@NotNull(message="is required")
 	private String bloodType;
 	
+	@CheckDonorEmail
 	@Column(name="Email")
 	@Pattern(regexp="[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\\.[a-zA-Z0-9-.]+", message="Invalid Email id")
 	@NotNull(message="is required")
@@ -56,6 +61,7 @@ public class Donor {
 	@NotNull(message="is required")
 	private String phone;
 	
+	@CheckDonorUserName
 	@Column(name="Username")
 	@NotNull(message="is required")
 	@Size(min=5, max=15, message="Minimum 5 and Maximum 15 characters required")
@@ -150,11 +156,11 @@ public class Donor {
 	}
 
 	public String getPassword() {
-		return password;
+		return UtilsSecure.decrypt(password);
 	}
 
 	public void setPassword(String password) {
-		this.password = password;
+		this.password = UtilsSecure.encrypt(password);
 	}
 
 	public Role getRole() {

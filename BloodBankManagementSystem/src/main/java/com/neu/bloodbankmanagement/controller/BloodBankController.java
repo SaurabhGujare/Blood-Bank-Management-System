@@ -9,9 +9,12 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.propertyeditors.StringTrimmerEditor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
@@ -43,10 +46,22 @@ public class BloodBankController {
 	@Autowired
 	private BloodRequestDao bloodRequestDao;
 	
+	//InitBinder is a preprocessor used here to remove white spaces
+	@InitBinder
+	public void initBinder(WebDataBinder webDataBinder) {
+		StringTrimmerEditor stringTrimmerEditor = new StringTrimmerEditor(true);
+		webDataBinder.registerCustomEditor(String.class, stringTrimmerEditor);
+	}
+	
 	@RequestMapping(value = "/login/homebloodbank/searchdonor", method = RequestMethod.GET)
 	public String showBloodBankRespectiveDonors(HttpServletRequest request, HttpServletResponse response, ModelMap map, Model model) throws BloodBankException, DonationHistoryException {
 		
 		HttpSession session = request.getSession();
+		if(session.getAttribute("userName")==null) {
+			System.out.println("\n\n******"+session+"******\n\n");
+			request.setAttribute("request", request);
+			return "ExceptionLoginRequired";
+		}
 		System.out.println("\n\n\n***Blood Bank username"+(String)session.getAttribute("userName")+"\n\n");
 		//get Bloodbank id from username and password
 		BloodBank bloodBank = bloodBankDao.getBloodBankSession((String)session.getAttribute("userName"),(String) session.getAttribute("password"));
@@ -68,6 +83,12 @@ public class BloodBankController {
 	public String showBloodBankStocks(HttpServletRequest request, HttpServletResponse response, ModelMap map, Model model) throws BloodBankException, DonationHistoryException {
 		
 		HttpSession session = request.getSession();
+
+		if(session.getAttribute("userName")==null) {
+			System.out.println("\n\n******"+session+"******\n\n");
+			request.setAttribute("request", request);
+			return "ExceptionLoginRequired";
+		}
 		System.out.println("\n\n\n***Blood Bank username"+(String)session.getAttribute("userName")+"\n\n");
 		
 		//get Bloodbank id from username and password
@@ -93,11 +114,16 @@ public class BloodBankController {
 	@RequestMapping(value = "/login/homebloodbank/bloodrequest", method = RequestMethod.GET)
 	public String showBloodBankRequests(HttpServletRequest request, HttpServletResponse response, ModelMap map, Model model) throws BloodBankException, DonationHistoryException, NumberFormatException, BloodRequestException {
 		
+		HttpSession session = request.getSession();
+		if(session.getAttribute("userName")==null) {
+			System.out.println("\n\n******"+session+"******\n\n");
+			request.setAttribute("request", request);
+			return "ExceptionLoginRequired";
+		}
 		//create a list to store the blood requests
 		List<BloodRequest> bloodRequests = new ArrayList<BloodRequest>();
 		
 		//Get session
-		HttpSession session = request.getSession();
 		System.out.println("\n\n\n***Blood Bank username"+(String)session.getAttribute("userName")+"\n\n");
 		
 		//Get blood bank id from the username and password stored in session

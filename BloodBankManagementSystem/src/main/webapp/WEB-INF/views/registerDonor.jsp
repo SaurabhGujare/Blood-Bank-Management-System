@@ -30,7 +30,7 @@
 <form:input type="text" path="lastName" placeholder="Donor Last Name"/> <form:errors path="lastName"/><br/>
 
 <label>Date of Birth</label>
-<input type="date" name="dob" placeholder="MM/DD/YYYY"/><br/>
+<input type="date" name="dob" placeholder="YYYY-MM-DD"/><br/>
 
 <label>Blood Type</label>
 <form:select path="bloodType">

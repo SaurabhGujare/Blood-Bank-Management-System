@@ -6,9 +6,12 @@ import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.propertyeditors.StringTrimmerEditor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -39,6 +42,13 @@ public class LoginController {
 	
 	@Autowired
 	private RoleDao roleDao;
+	
+	//InitBinder is a preprocessor used here to remove white spaces
+	@InitBinder
+	public void initBinder(WebDataBinder webDataBinder) {
+		StringTrimmerEditor stringTrimmerEditor = new StringTrimmerEditor(true);
+		webDataBinder.registerCustomEditor(String.class, stringTrimmerEditor);
+	}
 		
 	//Invalidate Session
 	@RequestMapping("/home")
@@ -112,6 +122,17 @@ public class LoginController {
 	@RequestMapping(value= "/login/homebloodbank" , method = RequestMethod.GET)
 	public String showBloodBank() {
 		return "homeBloodBank";
+	}
+	
+	@RequestMapping("/*")
+	public String randomURL(HttpServletRequest request){
+		HttpSession session = request.getSession();
+		System.out.println("\n\n*******Current Session is"+session.getId()+"\n"+(String)session.getAttribute("userName"));
+		if(session !=null) {
+			session.invalidate();
+		}
+		System.out.println("\n\n*******Current Session is invalidated");
+		return "redirect:/home";
 	}
 
 }

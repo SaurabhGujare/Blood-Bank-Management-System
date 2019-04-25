@@ -16,7 +16,7 @@
 <h1>Donation Form</h1>
 <br/>
 
-<form action="${pageContext.request.contextPath}/login/bloodbank/donateform" method="post">
+<form action="${pageContext.request.contextPath}/login/homebloodbank/donateform" method="post">
 <label>Name: </label><input type="text" name="donarName" /><br/>
 <label>Email: </label><input type="text" name="donarEmail"></input><br/>
 <label>Today's Date: </label><input type="date" name="donationDate"/><br>

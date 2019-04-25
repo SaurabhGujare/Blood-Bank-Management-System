@@ -50,13 +50,13 @@ table, th, td {
                <td><c:out value="${bloodRequest.getBloodAmount()}"/></td>
                <td><c:out value="${bloodRequest.getConfirmation()}"/></td>
                <td>
-               		<form action="${pageContext.request.contextPath}/login/bloodbank/bloodrequest" method="get">
+               		<form action="${pageContext.request.contextPath}/login/homebloodbank/bloodrequest" method="get">
                			<c:set var="bloodRequestId" value="${bloodRequest.getId()}"/>
                			<input type="hidden" value="${bloodRequestId}" name="bloodRequestId"/>
                			<input type="hidden" value="approve" name="confirmationValue"/>
                			<input type="submit" value="approve"/>
                		</form>
-               		<form action="${pageContext.request.contextPath}/login/bloodbank/bloodrequest" method="get">
+               		<form action="${pageContext.request.contextPath}/login/homebloodbank/bloodrequest" method="get">
                			<c:set var="bloodRequestId" value="${bloodRequest.getId()}"/>
                			<input type="hidden" value="${bloodRequestId}" name="bloodRequestId"/>
                			<input type="hidden" value="disapprove" name="confirmationValue"/>

@@ -1,5 +1,6 @@
 package com.neu.bloodbankmanagement.pojo;
 
+
 import java.util.Date;
 
 
@@ -71,7 +72,7 @@ public class BloodRequest {
 		return date;
 	}
 
-	public void setDate(Date date) {
+	public void setDate(Date date){
 		this.date = date;
 	}
 

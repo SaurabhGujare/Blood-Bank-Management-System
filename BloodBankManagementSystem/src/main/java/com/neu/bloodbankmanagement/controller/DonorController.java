@@ -5,7 +5,10 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.propertyeditors.StringTrimmerEditor;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -27,12 +30,23 @@ public class DonorController {
 	@Autowired
 	private DonationHistoryDao donationHistoryDao;
 	
+	//InitBinder is a preprocessor used here to remove white spaces
+	@InitBinder
+	public void initBinder(WebDataBinder webDataBinder) {
+		StringTrimmerEditor stringTrimmerEditor = new StringTrimmerEditor(true);
+		webDataBinder.registerCustomEditor(String.class, stringTrimmerEditor);
+	}
+	
 	@RequestMapping(value="/login/homedonor/donationhistory", method=RequestMethod.GET)
 	public String getDonorHistory(HttpServletRequest request, HttpServletResponse response) throws DonorException, DonationHistoryException {
 		
 		HttpSession session = request.getSession();
-		System.out.println("\n\n\n***Donor username"+(String)session.getAttribute("userName")+"\n\n");
+		System.out.println("\n\n\n***Donor username"+(String)session.getAttribute("userName")+"\n\n"+request.getRequestURI());
 		
+		if(session.getAttribute("userName")==null) {
+			request.setAttribute("request", request);
+			return "ExceptionLoginRequired";
+		}
 		//get donor id from the session w.t.h. of Donor dao
 		Donor donor = donorDao.getDonor((String)session.getAttribute("userName"), (String)session.getAttribute("password"));
 		System.out.println(donor);

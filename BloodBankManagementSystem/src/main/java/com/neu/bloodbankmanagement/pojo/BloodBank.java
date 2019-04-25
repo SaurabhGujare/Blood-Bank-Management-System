@@ -16,6 +16,9 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
+import com.neu.bloodbankmanagement.validation.CheckBloodBankEmail;
+import com.neu.bloodbankmanagement.validation.CheckBloodBankUserName;
+
 @Entity
 @Table(name="blood_bank")
 public class BloodBank {
@@ -29,6 +32,7 @@ public class BloodBank {
 	@NotNull(message="is required")
 	private String name;
 	
+	@CheckBloodBankEmail
 	@Column(name="Email")
 	@Pattern(regexp="[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\\.[a-zA-Z0-9-.]+", message="Invalid Email id")
 	@NotNull(message="is required")
@@ -39,6 +43,7 @@ public class BloodBank {
 	@NotNull(message="is required")
 	private String phone;
 	
+	@CheckBloodBankUserName
 	@Column(name="Username")
 	@NotNull(message="is required")
 	@Size(min=5, max=15, message="Minimum 5 and Maximum 15 characters required")

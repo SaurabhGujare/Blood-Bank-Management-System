@@ -4,7 +4,11 @@ import javax.persistence.Column;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+import com.neu.bloodbankmanagement.validation.CheckLoginUserName;
+
 public class LoginUser {
+	
+	@CheckLoginUserName
 	@Column(name="Username")
 	@NotNull(message="is required")
 	@Size(min=5, max=15, message="Minimum 5 and Maximum 15 characters required")

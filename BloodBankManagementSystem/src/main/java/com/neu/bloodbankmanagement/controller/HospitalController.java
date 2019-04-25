@@ -1,7 +1,9 @@
 package com.neu.bloodbankmanagement.controller;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.LinkedHashMap;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -11,10 +13,13 @@ import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.propertyeditors.StringTrimmerEditor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -49,9 +54,21 @@ public class HospitalController {
 	@Autowired 
 	private DonationHistoryDao donationHistoryDao;
 	
+	//InitBinder is a preprocessor used here to remove white spaces
+	@InitBinder
+	public void initBinder(WebDataBinder webDataBinder) {
+		StringTrimmerEditor stringTrimmerEditor = new StringTrimmerEditor(true);
+		webDataBinder.registerCustomEditor(String.class, stringTrimmerEditor);
+	}
+	
 	@RequestMapping(value = "login/homehospital/sendrequest", method = RequestMethod.GET)
 	public ModelAndView showRequestForm(HttpServletRequest request, HttpServletResponse response, ModelMap map, Model model) throws BloodBankException {
 		//request.setAttribute("hospital", new Hospital());
+		HttpSession session = request.getSession();
+		if(session.getAttribute("userName")==null) {
+			request.setAttribute("request", request);
+			return new ModelAndView("ExceptionLoginRequired");
+		}
 		List<BloodBank> bloodBanks = new ArrayList<BloodBank>();
 		bloodBanks = bloodBankDao.getAllBloodBanks();
 		
@@ -62,9 +79,15 @@ public class HospitalController {
 	}
 	
 	@RequestMapping(value = "login/homehospital/sendrequest", method = RequestMethod.POST)
-	public String processRequestForm(@Valid @ModelAttribute("bloodRequest") BloodRequest bloodRequest, BindingResult bindingResult,HttpServletRequest request) throws BloodBankException, HospitalException {
+	public String processRequestForm(@Valid @ModelAttribute("bloodRequest") BloodRequest bloodRequest, BindingResult bindingResult,HttpServletRequest request) throws BloodBankException, HospitalException, ParseException {
 		HttpSession session = request.getSession();
+		if(session.getAttribute("userName")==null) {
+			request.setAttribute("request", request);
+			
+			return "ExceptionLoginRequired";
+		}
 		if(bindingResult.hasErrors()) {
+			
 			System.out.println("\n\nbindingResult.hasErrors() is TRUE");
 			return "requestForm";
 		}else {
@@ -72,6 +95,10 @@ public class HospitalController {
 			String userName = (String)session.getAttribute("userName");
 			String password = (String)session.getAttribute("password");
 			Hospital hospital = hospitalDao.getHospital(userName, password);
+			System.out.println("\n\n****"+request.getParameter("date")+"\n\n");
+			
+			Date requestDate = new Date();
+			bloodRequest.setDate(requestDate);
 			
 			//save hospital in bloodRequest
 			bloodRequest.setHospital(hospital);
@@ -87,19 +114,23 @@ public class HospitalController {
 			
 			//save blood request
 			bloodRequestDao.save(bloodRequest);
-		
+			return "redirect:/login/homehospital";
 		}		
-		return "redirect:/login";
+		
 	}
 	
 	@RequestMapping(value = "/login/homehospital/requesthistory", method = RequestMethod.GET)
 	public String showBloodBankRequests(HttpServletRequest request, HttpServletResponse response, ModelMap map, Model model) throws DonationHistoryException, NumberFormatException, BloodRequestException, HospitalException {
 		
+		HttpSession session = request.getSession();
+		if(session.getAttribute("userName")==null) {
+			request.setAttribute("request", request);
+			return "ExceptionLoginRequired";
+		}
 		//create a list to store the blood requests
 		List<BloodRequest> bloodRequests = new ArrayList<BloodRequest>();
 		
 		//Get session
-		HttpSession session = request.getSession();
 		System.out.println("\n\n\n***Blood Bank username"+(String)session.getAttribute("userName")+"\n\n");
 		
 		//Get hospital id from the username and password stored in session
@@ -144,7 +175,11 @@ public class HospitalController {
 	//Show Current Stock available
 	@RequestMapping(value = "/login/homehospital/bloodbanksstock", method = RequestMethod.GET)
 	public String showBloodAvailability(HttpServletRequest request, HttpServletResponse response, ModelMap map, Model model) throws DonationHistoryException {
-		
+				HttpSession session = request.getSession();
+				if(session.getAttribute("userName")==null) {
+					request.setAttribute("request", request);
+					return "ExceptionLoginRequired";
+				}
 				List<Object[]> currentBloodStocks = hospitalDao.getCurrentStock();
 				ArrayList<Map.Entry<String,Object>> entries = new ArrayList<Map.Entry<String,Object>>();
 				ArrayList<Object> values  =new ArrayList<Object>();

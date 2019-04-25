@@ -1,5 +1,6 @@
 package com.neu.bloodbankmanagement.dao;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.hibernate.Criteria;
@@ -55,6 +56,23 @@ public class DonorDao extends DAO {
 		} catch (HibernateException e) {
 			rollback();
 			throw new DonorException("Could not get donor " + id, e);
+		}finally {
+			close();
+		}
+	}
+	
+	//get All donors
+	public List<Donor> getAllDonors() throws DonorException {
+		List<Donor> donors =new ArrayList<Donor>();
+		try {
+			begin();
+			Query q = getSession().createQuery("from Donor");
+			 donors = q.list();
+			commit();
+			return donors;
+		} catch (HibernateException e) {
+			rollback();
+			throw new DonorException("Could not get donor " +donors, e);
 		}finally {
 			close();
 		}
